@@ -4,15 +4,15 @@
 
 ## Introduction
 
-[OpenCV](http://opencv.org) and its [OpenFrameworks](http://openframeworks.cc) addon [ofxCv](https://github.com/kylemcdonald/ofxCv) already provide face tracking with haar cascades. However, the speed of detection apparently decreases a lot with the number of faces in the frame, and is generally not good at tilted faces. The newer versions of OpenCV (3.3+) introduced a `dnn` module that facilitates importing of models from many different neural networks, as explored in this [pyimagesearch blog](https://www.pyimagesearch.com/2017/08/21/deep-learning-with-opencv/). This allows us to use a [good caffe face detection model](https://github.com/opencv/opencv/tree/master/samples/dnn/face_detector) that runs lightning fast even when there's a ton of faces in the same frame. However the current version of OpenCV bundled with Openframeworks is way out of date. One approach is to try compiling OpenFrameworks with a newer version of OpenCV, as disccussed in this [OF forum thread](https://forum.openframeworks.cc/t/how-do-i-use-an-alternative-version-of-opencv-with-of/23280/14). Another approach is directly link against a OpenCV installation on the system, which is what we'll be doing in this document.
+[OpenCV](http://opencv.org) and its [OpenFrameworks](http://openframeworks.cc) addon [ofxCv](https://github.com/kylemcdonald/ofxCv) already provide face tracking with haar cascades. However, the speed of detection apparently decreases a lot with the number of faces in the frame, and is generally not good at tilted faces. The newer versions of OpenCV (3.3+) introduced a `dnn` module that facilitates importing of models from many different neural networks, as explored in this [pyimagesearch blog](https://www.pyimagesearch.com/2017/08/21/deep-learning-with-opencv/). This allows us to use a [good caffe face detection model](https://github.com/opencv/opencv/tree/master/samples/dnn/face_detector) that runs lightning fast even when there's a ton of faces in the same frame. However the current version of OpenCV bundled with OpenFrameworks is way out of date. One approach is to try compiling OpenFrameworks with a newer version of OpenCV, as discussed in this [OF forum thread](https://forum.openframeworks.cc/t/how-do-i-use-an-alternative-version-of-opencv-with-of/23280/14). Another approach is directly link against a OpenCV installation on the system, which is what we'll be doing in this document.
 
-This process can be somewhat complex depending familiarity with C++/linking/OF/OpenCv/Xcode stuff. Hopefully I'll be able to find a more convenient solution in the future. It is only tested on macOS, but might work in a similar way on Windows/Linux.
+This process can be somewhat complex depending familiarity with C++/linking/OF/OpenCv/Xcode stuff. This repo aims to make it much easier by providing detailed steps and ready-to-use code. Hopefully I'll be able to find a even more convenient solution in the future. It is only tested on macOS, but might work in a similar way on Windows/Linux.
 
 ## Installing Dependencies
 
 First install OpenCV (3.3+). I tested with 3.4.1 and 4.0.1, but other versions should work too as long as they're >= 3.3.
 
-I recommand using [brew](http://brew.sh):
+I recommend using [brew](http://brew.sh):
 
 ```bash
 brew install opencv
@@ -60,7 +60,7 @@ Hopefully this compiles without errors. Then try:
 
 to launch the app. A window should pop up, in it you'll see realtime video feed from your webcam, and a box around each face in the frame.
 
-The main code is located in `noof/main.cpp`, and the neural networks wrapper is located in `noof/caffe_face_det.h`. You'll see a lot of magic numbers in `caffe_face_det.h`, they're taken from this [pyimagesearch](https://www.pyimagesearch.com/2018/02/26/face-detection-with-opencv-and-deep-learning/) blog. Messing with the numbers is tested to be a bad idea.
+The main code is located in `noof/main.cpp`, and the neural networks wrapper is located in `noof/caffe_face_det.h`. You'll see a lot of magic numbers in `caffe_face_det.h`, they're taken from this [pyimagesearch blog](https://www.pyimagesearch.com/2018/02/26/face-detection-with-opencv-and-deep-learning/). Messing with the numbers is tested to be a bad idea.
 
 You might notice there're false positives. This is because the threshold is low, and you can add a second argument to `detector.detect(frame)` in `main.cpp` to specify the threshold (0.0-1.0), e.g.
 
@@ -68,7 +68,7 @@ You might notice there're false positives. This is because the threshold is low,
  vector<a_det> detections = detector.detect(frame, 0.5);
 ```
 
-If you have a lot of small faces in the frame, like a mass survailance situation, you might want a lower threshold to detect more faces. If there's only a small number of large faces in the frame, then a higher theshold works better.
+If you have a lot of small faces in the frame, like a mass surveillance situation, you might want a lower threshold to detect more faces. If there's only a small number of large faces in the frame, then a higher threshold works better.
 
 
 ## OpenFrameworks + makefile
