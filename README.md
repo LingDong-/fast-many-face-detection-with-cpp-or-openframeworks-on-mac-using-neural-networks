@@ -82,13 +82,28 @@ Now that we know OpenCV is working, we can add the OpenFrameworks support. I thi
 
 - Now copy-paste the contents of `of/config.make` from this repo to `MyProject/config.make`. However, you'll need to replace the path and version of OpenCV on line 76. Basically you'll be adding these lines to your `config.make` file:
 
-
 ```
 PROJECT_LDFLAGS += -lopencv_videostab -lopencv_photo -lopencv_objdetect -lopencv_video -lopencv_ml -lopencv_calib3d -lopencv_features2d -lopencv_highgui -lopencv_flann -lopencv_imgproc -lopencv_dnn -lopencv_imgcodecs -lopencv_core
 PROJECT_LDFLAGS += -I/usr/local/Cellar/opencv/3.4.1_5/include
 ```
 
-- You might also need to add `PROJECT_CFLAGS += ` with the exact same flags as `PROJECT_LDFLAGS` in `config.make` file. On one mac I tested, this is necessary, but on another two macs, this is not.
+- If you are using OpenCV 4.0.1, the link path is a little different: 
+
+```
+PROJECT_LDFLAGS += -lopencv_videostab -lopencv_photo -lopencv_objdetect -lopencv_video -lopencv_ml -lopencv_calib3d -lopencv_features2d -lopencv_highgui -lopencv_flann -lopencv_imgproc -lopencv_dnn -lopencv_imgcodecs -lopencv_core
+PROJECT_LDFLAGS += -I/usr/local/Cellar/opencv/4.0.1/include/opencv4
+```
+
+![](screenshots/ldflags.jpg)
+
+- You might also need to add `PROJECT_CFLAGS += ` with the exact same flags as `PROJECT_LDFLAGS` in `config.make` file.
+
+```
+PROJECT_CFLAGS += -lopencv_videostab -lopencv_photo -lopencv_objdetect -lopencv_video -lopencv_ml -lopencv_calib3d -lopencv_features2d -lopencv_highgui -lopencv_flann -lopencv_imgproc -lopencv_dnn -lopencv_imgcodecs -lopencv_core
+PROJECT_CFLAGS += -I/usr/local/Cellar/opencv/4.0.1/include/opencv4
+```
+![](screenshots/cflags.jpg)
+
 
 
 - Now, `cd` into `MyProject` folder, and try:
@@ -121,6 +136,10 @@ Great! The most difficult parts are now done. You can run your OpenFrameworks fa
 
 ![](screenshots/xcode2.png)
 
+- If you are using Xcode 10 with OpenCV 4.0.1 and openFrameworks 0.10.1, you should change your `Header Search Paths` into this:
+
+![](screenshots/xcode4.png)
+
 - Find `Linking > Other Link Flags`, and add a bunch of new flags. Don't worry: you don't need to add one by one, just enter all of them at once separated by spaces, and Xcode will format automatically. e.g. you can copy-paste the below:
 
 ```
@@ -128,6 +147,19 @@ Great! The most difficult parts are now done. You can run your OpenFrameworks fa
 ```
 
 ![](screenshots/xcode3.png)
+
+- The path is different using OpenCV 4.0.1:
+
+```
+-I/usr/local/Cellar/opencv/4.0.1/include/opencv4 -L/usr/local/lib -lopencv_videostab -lopencv_photo -lopencv_objdetect -lopencv_video -lopencv_ml -lopencv_calib3d -lopencv_features2d -lopencv_highgui -lopencv_flann -lopencv_imgproc -lopencv_dnn -lopencv_imgcodecs -lopencv_core
+```
+
+![](screenshots/xcode5.png)
+
+- You might also need to add the exact same flags to `Apple Clang - Custom Compiler Flags > Other C Flags`
+
+
+![](screenshots/xcode6.png)
 
 - Finally click the play button, everything should work now!
 
