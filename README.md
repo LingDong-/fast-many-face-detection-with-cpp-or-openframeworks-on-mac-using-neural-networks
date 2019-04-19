@@ -52,6 +52,12 @@ c++ main.cpp -std=c++11 -lopencv_highgui -lopencv_imgproc -lopencv_dnn -lopencv_
 
 You **must** subsitute `-I/usr/local/Cellar/opencv/3.4.1_5/include` with the correct path and version of OpenCV installed on your system. (The above command is the minimal version, if you want to use other functionalities of OpenCV, you can find the full version for copy-pasting on the first line of `noof/main.cpp`).
 
+If you're using OpenCV 4.x, the `-I` path is a bit different, notice the extra `/opencv4` at the end:
+
+```bash
+c++ main.cpp -std=c++11 -lopencv_highgui -lopencv_imgproc -lopencv_dnn -lopencv_core -lopencv_videoio -I/usr/local/Cellar/opencv/4.1.0_1/include/opencv4
+```
+
 Hopefully this compiles without errors. Then try:
 
 ```bash
